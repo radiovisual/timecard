@@ -4,7 +4,9 @@
 ![timecard print screenshot](media/timecard-print-screenshot.png)
 
 ## Install 
-*Currently testing the global capabilities of timecard. Check back soon for Install instruction.*
+```sh
+$ npm install --global timecard
+```
 
 ## Usage
 
@@ -28,9 +30,20 @@ To see a **print summary** of your time
 $ timecard print
 ```
 
+## Notes
+
+### `.timecard.json`
+
+- By default, timecard creates a hidden json file `.timecard.json` and places it your project's root 
+directory. If you don't want this file to be under version control, remember to update your `.gitignore` file.  
+
+- Sometimes it will be necessary to update the `.timecard.json` file manually (if you forgot to clockout, for example), 
+which is fine, just remember that this file must be valid JSON.
+ 
+ 
 ## Options
 
-```
+```sh
     $ timecard --help
    
     Record your project's development time.

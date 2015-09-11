@@ -141,7 +141,6 @@ TimeCard.prototype.clockout = function (cb) {
  */
 TimeCard.prototype.createBlankTimeCard = function(){
 
-    console.log("in createBlankTimeCard");
     var self = this;
 
     // First check to see if the file already exists
