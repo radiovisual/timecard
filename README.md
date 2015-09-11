@@ -43,7 +43,7 @@ which is fine, just remember that this file must be valid JSON.
  
 ## Options
 
-```sh
+```
 $ timecard --help
    
 Record your project development time.
@@ -59,8 +59,7 @@ Commands
 
 Options
     -h, --help              Show this help message
-    -v, --version           Show the current timecard version
-        
+    -v, --version           Show the current timecard version     
 ```
 
 ## License
