@@ -46,7 +46,7 @@ which is fine, just remember that this file must be valid JSON.
 ```sh
     $ timecard --help
    
-    Record your project's development time.
+    Record your project development time.
 
     Get timecard setup with the `new` command, then use the `clockin` and `clockout` commands
     to record your time. When you want to see a summary of your time, use the `print` command.
