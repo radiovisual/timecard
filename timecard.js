@@ -157,13 +157,13 @@ TimeCard.prototype.createBlankTimeCard = function(){
 
             var question = [{
                     type: "confirm",
-                    name: "areYouSure",
+                    name: "eraseCard",
                     message: "A timecard file already exists. Do you want to erase it and start over?",
-                    default: false
+                    default: true
                 }];
 
-            inquirer.prompt(question, function( answer ) {
-                if (answer){
+            inquirer.prompt(question, function(answer) {
+                if (answer.eraseCard == true){
                     self.writeTimeCard('[]', reportSuccessfulNewTimeCard);
                 } else {
                     process.exit();
@@ -181,6 +181,7 @@ TimeCard.prototype.createBlankTimeCard = function(){
 TimeCard.prototype.hours = function(){
     return this.hours;
 };
+
 
 /**
  * Record the times and look for conditions on the timecard data.
@@ -217,6 +218,7 @@ TimeCard.prototype.processTimeCardData = function(timeCardData){
 
     });
 };
+
 
 /**
  * Print the timecard data to the console.

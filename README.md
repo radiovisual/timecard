@@ -4,7 +4,7 @@
 ![timecard print screenshot](media/timecard-print-screenshot.png)
 
 ## Install 
-> Currently testing the global capabilities of timecard. Check back soon for Install instruction.
+*Currently testing the global capabilities of timecard. Check back soon for Install instruction.*
 
 ## Usage
 
@@ -49,4 +49,8 @@ $ timecard print
         -v, --version           Show the current timecard version
         
 ```
+
+## License
+
+MIT @ [Michael Wuergler](http://numetriclabs.com)
 
