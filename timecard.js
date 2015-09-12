@@ -6,6 +6,7 @@ var objectAssign = require('object-assign');
 var parseArgs = require('minimist');
 var getStdin = require('get-stdin');
 var errors = require('./tc_messages').errors;
+var message = require('./tc_messages');
 var messages = require('./tc_messages').messages;
 var summary = require('./tc_messages').summary;
 var prettyprint = require('./tc_messages').prettyPrintEntry;
@@ -22,6 +23,12 @@ var args = options._;
 
 delete options._;
 
+/**
+ * The timecard object used by the cli.
+ *
+ * @note: This value is assigned in `init()`
+ */
+var cliTimecard;
 
 /**
  * Initialize a new TimeCard
@@ -38,7 +45,6 @@ function TimeCard (options){
     this.options = objectAssign({}, options);
 
     this.filepath = this.options.filepath || process.cwd()+"/.timecard.json";
-    console.log("using filepath: ", this.filepath);
     this.hours = [];
     this.clockoutIsPending = false;
     this.pendingClockoutIndex = null;
@@ -316,6 +322,7 @@ TimeCard.prototype.writeTimeCard = function(data, cb) {
  * has been created with `timecard new`
  */
 function reportSuccessfulNewTimeCard(){
+    message.print(cliTimecard.filepath);
     console.log(messages.createdNewTimeCard);
 }
 
@@ -367,15 +374,15 @@ function init(args, options){
         process.exit(1);
     }
 
-    var timecard = new TimeCard();
+    cliTimecard = new TimeCard();
 
 
     if (args.indexOf('new') > -1){
-        timecard.createBlankTimeCard();
+        cliTimecard.createBlankTimeCard();
     }
 
     else if (args.indexOf('clockin') > -1){
-        timecard.clockin(function(err){
+        cliTimecard.clockin(function(err){
             if(err){
                 console.log(err.message);
             }
@@ -383,7 +390,7 @@ function init(args, options){
     }
 
     else if (args.indexOf('clockout') > -1){
-        timecard.clockout(function(err){
+        cliTimecard.clockout(function(err){
             if(err){
                 console.log(err.message);
             }
@@ -391,7 +398,7 @@ function init(args, options){
     }
 
     else if (args.indexOf('print') > -1) {
-        timecard.print(function (err) {
+        cliTimecard.print(function (err) {
             if (err) {
                 console.log(err.message);
             }

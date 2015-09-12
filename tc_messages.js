@@ -34,6 +34,16 @@ module.exports.messages = {
 
 
 /**
+ * Output data to the console.
+ *
+ * @param {string} str
+ */
+module.exports.print = function(str){
+    console.log("\n  "+chalk.gray(str));
+};
+
+
+/**
  * A Helper function to generate the total time data.
  *
  * @note: This prints the total hours/mins/secs on the
