@@ -165,7 +165,7 @@ TimeCard.prototype.createBlankTimeCard = function(){
                     type: "confirm",
                     name: "eraseCard",
                     message: "A timecard file already exists. Do you want to erase it and start over?",
-                    default: true
+                    default: false
                 }];
 
             inquirer.prompt(question, function(answer) {
