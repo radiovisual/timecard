@@ -37,7 +37,8 @@ function TimeCard (options){
 
     this.options = objectAssign({}, options);
 
-    this.filepath = this.options.filepath || __dirname+"/.timecard.json";
+    this.filepath = this.options.filepath || process.cwd()+"/.timecard.json";
+    console.log("using filepath: ", this.filepath);
     this.hours = [];
     this.clockoutIsPending = false;
     this.pendingClockoutIndex = null;
