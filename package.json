@@ -47,6 +47,7 @@
     "minimist": "^1.2.0",
     "multiline": "^1.0.2",
     "object-assign": "^4.0.1",
+    "parse-gitignore": "^0.2.0",
     "pendel": "^1.0.0",
     "pinkie-promise": "^1.0.0",
     "simple-zeropad": "^1.0.3",
