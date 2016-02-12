@@ -14,7 +14,8 @@ var to24 = require('twelve-to-twentyfour');
 module.exports.errors = {
 
     'clockOutIsPending':    "\n" + chalk.bgRed("TIMECARD ERROR:") + chalk.bold.white(" You must clockout before clocking in. \n")+ chalk.bold.white("Tip:") +" Clock out with the "+chalk.cyan("clockout")+" command, or edit the timecard file manually. \n",
-    'noClockInFound':       "\n" + chalk.bgRed("TIMECARD ERROR:") + chalk.bold.white(" You must clockin before clocking out. \n")+ chalk.bold.white("Tip:") +" Clock in with the "+chalk.cyan("clockin")+" command, or edit the timecard file manually. \n"
+    'noClockInFound':       "\n" + chalk.bgRed("TIMECARD ERROR:") + chalk.bold.white(" You must clockin before clocking out. \n")+ chalk.bold.white("Tip:") +" Clock in with the "+chalk.cyan("clockin")+" command, or edit the timecard file manually. \n",
+    'noGitIgnoreFound':		"\n" + chalk.bgRed("GITIGNORE ERROR:") + chalk.bold.white(" No .gitignore file found in current working directory. \n")
 };
 
 
@@ -24,12 +25,13 @@ module.exports.errors = {
  */
 module.exports.messages = {
 
-    'createdNewTimeCard':   "\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.bold.white(" You have created a new timecard file. \n")+ chalk.bold.white("  Tip:") +" Clock in with the "+chalk.cyan("clockin")+" command, Clock out with the "+chalk.cyan("clockout")+" command \n",
-    'successfulClockin':    "\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.bold.white(" You have ") + chalk.bold.green("clocked in: ") + time() + "\n",
-    'successfulClockout':   "\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.bold.white(" You have ") + chalk.bold.red("clocked out: ") + time() + "\n",
-    'prettyPrintHeader':    "\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.cyan(" Logged hours") + "\n\n  "+chalk.gray("______________________________________________\n"),
-    'prettyPrintBorder':    chalk.gray("\n  ______________________________________________")
-
+    'createdNewTimeCard':   	"\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.bold.white(" You have created a new timecard file. \n")+ chalk.bold.white("  Tip:") +" Clock in with the "+chalk.cyan("clockin")+" command, Clock out with the "+chalk.cyan("clockout")+" command \n",
+    'successfulClockin':    	"\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.bold.white(" You have ") + chalk.bold.green("clocked in: ") + time() + "\n",
+    'successfulClockout':   	"\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.bold.white(" You have ") + chalk.bold.red("clocked out: ") + time() + "\n",
+    'prettyPrintHeader':    	"\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.cyan(" Logged hours") + "\n\n  "+chalk.gray("______________________________________________\n"),
+    'prettyPrintBorder':    	chalk.gray("\n  ______________________________________________"),
+    'alreadExistsInGitIgnore':	"\n  "+chalk.bgCyan.black("GITIGNORE:") + chalk.bold.white(" The .gitignore file already contains .timecard.json. Nothing was appended! \n"),
+    'successfulAppended':		"\n  "+chalk.bgCyan.black("GITIGNORE:") + chalk.bold.white(" .timecard.json was added to your .gitignore file! \n")
 };
 
 

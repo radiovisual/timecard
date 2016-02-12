@@ -16,6 +16,7 @@ var Promise = require('pinkie-promise');
 var duration = require('pendel');
 var multiline = require('multiline');
 var inquirer = require("inquirer");
+var gitignore = require('parse-gitignore');
 
 var options = parseArgs(process.argv.slice(2));
 
@@ -272,6 +273,56 @@ TimeCard.prototype.print = function(cb) {
 
 };
 
+/**
+ * Append .timecard.js to .gitignore file
+ *
+ */
+TimeCard.prototype.append = function(cb) {
+
+	var self = this;
+
+	// First check to see if the .gitignore file exists
+    fs.stat(process.cwd()+'/.gitignore', function(err, stats){
+
+    	if (err && err.code === 'ENOENT'){
+    		if (typeof cb === 'function') {
+    			cb(new Error(errors.noGitIgnoreFound));
+            	return;
+    		}
+        } else if (err) {
+            throw err;
+        }
+
+        if (stats && stats.isFile()){
+
+            var question = [{
+                    type: "confirm",
+                    name: "appendToGitIgnore",
+                    message: ".gitignore found: do you want your timecard to be kept in version control?",
+                    default: true
+                }];
+
+            inquirer.prompt(question, function(answer) {
+                if (answer.appendToGitIgnore == true){
+
+                	var patterns = gitignore(process.cwd()+'/.gitignore');
+
+                	if (patterns.indexOf('.timecard.json') > -1){
+            			console.log(messages.alreadExistsInGitIgnore);
+                	}
+                	else {
+	                	fs.appendFile(process.cwd()+'/.gitignore', '.timecard.json', 'utf8', (err) => {
+						  if (err) throw err;
+						  console.log(messages.successfulAppended);
+						});
+                	}
+                } else {
+                    process.exit();
+                }
+            });
+        }
+    });
+}
 
 /**
  * Read the json file with the timecard data.
@@ -322,8 +373,10 @@ TimeCard.prototype.writeTimeCard = function(data, cb) {
  * has been created with `timecard new`
  */
 function reportSuccessfulNewTimeCard(){
-    message.print(cliTimecard.filepath);
+	message.print(cliTimecard.filepath);
     console.log(messages.createdNewTimeCard);
+
+    cliTimecard.append();
 }
 
 
@@ -381,6 +434,14 @@ function init(args, options){
         cliTimecard.createBlankTimeCard();
     }
 
+    else if (args.indexOf('append') > -1){
+    	cliTimecard.append(function(err){
+        	if(err){
+            	console.log(err.message);
+        	}
+    	});
+    }
+
     else if (args.indexOf('clockin') > -1){
         cliTimecard.clockin(function(err){
             if(err){
@@ -427,6 +488,7 @@ function showHelp(){
         timecard clockin        set the start time
         timecard clockout       set the end time
         timecard print          print a summary of your time
+        timecard append         append .timecard.json to .gitignore
 
     Options
         -h, --help              Show this help message
