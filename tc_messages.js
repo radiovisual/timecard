@@ -31,7 +31,7 @@ module.exports.messages = {
     'prettyPrintHeader':    	"\n  "+chalk.bgCyan.black("TIMECARD:") + chalk.cyan(" Logged hours") + "\n\n  "+chalk.gray("______________________________________________\n"),
     'prettyPrintBorder':    	chalk.gray("\n  ______________________________________________"),
     'alreadExistsInGitIgnore':	"\n  "+chalk.bgCyan.black("GITIGNORE:") + chalk.bold.white(" The .gitignore file already contains .timecard.json. Nothing was appended! \n"),
-    'successfulAppended':		"\n  "+chalk.bgCyan.black("GITIGNORE:") + chalk.bold.white(" .timecard.json was appended to file! \n")
+    'successfulAppended':		"\n  "+chalk.bgCyan.black("GITIGNORE:") + chalk.bold.white(" .timecard.json was added to your .gitignore file! \n")
 };
 
 

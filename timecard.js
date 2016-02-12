@@ -298,7 +298,7 @@ TimeCard.prototype.append = function(cb) {
             var question = [{
                     type: "confirm",
                     name: "appendToGitIgnore",
-                    message: "A .gitignore file exists. Do you want to add .timecard.json to it?",
+                    message: ".gitignore found: do you want your timecard to be kept in version control?",
                     default: true
                 }];
 
@@ -308,13 +308,11 @@ TimeCard.prototype.append = function(cb) {
                 	var patterns = gitignore(process.cwd()+'/.gitignore');
 
                 	if (patterns.indexOf('.timecard.json') > -1){
-                		message.print(process.cwd()+'/.gitignore');
             			console.log(messages.alreadExistsInGitIgnore);
                 	}
                 	else {
 	                	fs.appendFile(process.cwd()+'/.gitignore', '.timecard.json', 'utf8', (err) => {
 						  if (err) throw err;
-						  message.print(process.cwd()+'/.gitignore');
 						  console.log(messages.successfulAppended);
 						});
                 	}
