@@ -48,10 +48,10 @@ module.exports.print = function (str) {
 
 module.exports.summary = function (seconds) {
 	var total = convert(seconds);
+	var timeStr = makeTimeString(total);
+
 	console.log('\n  ' + chalk.bgCyan.black('TIMECARD:') + chalk.cyan(' TOTAL TIME') + '\n');
-	console.log('  ' + chalk.white('Hours: ') + total.hours);
-	console.log('  ' + chalk.white('Minutes: ') + total.minutes);
-	console.log('  ' + chalk.white('Seconds: ') + total.seconds);
+	console.log('  ' + total.hours + chalk.white(' Hours ') + total.minutes + chalk.white(' Minutes ') + total.seconds + chalk.white(' Seconds ') + chalk.gray('[' + timeStr + ']'));
 	console.log();
 };
 
