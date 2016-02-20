@@ -4,7 +4,7 @@
   "description": "Keep track of your project development time",
   "main": "timecard.js",
   "scripts": {
-    "test": "xo && ava"
+    "test": "xo"
   },
   "repository": {
     "type": "git",
