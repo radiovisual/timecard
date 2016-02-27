@@ -15,7 +15,7 @@
     "timecard": "timecard.js"
   },
   "files": [
-    "tc_messages.js",
+    "messages.js",
     "timecard.js"
   ],
   "keywords": [
