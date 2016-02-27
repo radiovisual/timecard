@@ -4,11 +4,16 @@ var convert = require('convert-seconds');
 var pendel = require('pendel');
 var zp = require('simple-zeropad');
 var to24 = require('twelve-to-twentyfour');
+var validFile = require('valid-file');
+var path = require('path');
+
 var projectName;
-try {
+
+var hasPackage = validFile.sync(path.join(__dirname, 'package.json'));
+if (hasPackage) {
 	projectName = require('./package.json').name;
-} catch (err) {
-	projectName = null;
+} else {
+	projectName = __dirname;
 }
 
 /**
@@ -26,10 +31,10 @@ module.exports.errors = {
  *
  */
 module.exports.messages = {
-	createdNewTimeCard: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.bold.white(' You have created a new timecard file. \n') + chalk.bold.white('  Tip:') + ' Clock in with the ' + chalk.cyan('clockin') + ' command, Clock out with the ' + chalk.cyan('clockout') + ' command \n',
+	createdNewTimeCard: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.bold.white(' You have created a new timecard file. \n') + chalk.bold.white('  Tip:') + ' Use the ' + chalk.cyan('clockin') + ' and ' + chalk.cyan('clockout') + ' commands to record your time.\n',
 	successfulClockin: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.bold.white(' You have ') + chalk.bold.green('clocked in: ') + time() + '\n',
 	successfulClockout: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.bold.white(' You have ') + chalk.bold.red('clocked out: ') + time() + '\n',
-	prettyPrintHeader: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.cyan(' Logged hours') + projectNameString() + '\n\n  ' + chalk.gray('______________________________________________\n'),
+	prettyPrintHeader: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + '\n  ' +chalk.gray('Project: ') + projectName + '\n\n  ' + chalk.cyan('Logged Hours ') + '\n  ' + chalk.gray('______________________________________________\n'),
 	prettyPrintBorder: chalk.gray('\n  ______________________________________________')
 };
 
@@ -56,8 +61,8 @@ module.exports.summary = function (seconds) {
 	var total = convert(seconds);
 	var timeStr = makeTimeString(total);
 
-	console.log('\n' + chalk.cyan('  TOTAL TIME') + '\n');
-	console.log('  ' + total.hours + chalk.white(' Hours ') + total.minutes + chalk.white(' Minutes ') + total.seconds + chalk.white(' Seconds ') + chalk.gray('[' + timeStr + ']'));
+	console.log('\n' + chalk.cyan('  Total Time: ') + chalk.gray(timeStr) + '\n');
+	console.log('  ' + total.hours + chalk.white(' Hours ') + total.minutes + chalk.white(' Minutes ') + total.seconds + chalk.white(' Seconds '));
 	console.log();
 };
 
@@ -108,9 +113,3 @@ function makeTimeString(timeObj) {
 	return zp(timeObj.hours) + ':' + zp(timeObj.minutes) + ':' + zp(timeObj.seconds);
 }
 
-function projectNameString() {
-	if (projectName) {
-		return chalk.cyan(' for project: ') + projectName;
-	}
-	return '';
-}
