@@ -4,17 +4,7 @@ var convert = require('convert-seconds');
 var pendel = require('pendel');
 var zp = require('simple-zeropad');
 var to24 = require('twelve-to-twentyfour');
-var validFile = require('valid-file');
-var path = require('path');
-
-var projectName;
-
-var hasPackage = validFile.sync(path.join(__dirname, 'package.json'));
-if (hasPackage) {
-	projectName = require('./package.json').name;
-} else {
-	projectName = __dirname;
-}
+var projectName = process.cwd();
 
 /**
  * Error messages.
@@ -34,7 +24,7 @@ module.exports.messages = {
 	createdNewTimeCard: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.bold.white(' You have created a new timecard file. \n') + chalk.bold.white('  Tip:') + ' Use the ' + chalk.cyan('clockin') + ' and ' + chalk.cyan('clockout') + ' commands to record your time.\n',
 	successfulClockin: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.bold.white(' You have ') + chalk.bold.green('clocked in: ') + time() + '\n',
 	successfulClockout: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.bold.white(' You have ') + chalk.bold.red('clocked out: ') + time() + '\n',
-	prettyPrintHeader: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + '\n  ' +chalk.gray('Project: ') + projectName + '\n\n  ' + chalk.cyan('Logged Hours ') + '\n  ' + chalk.gray('______________________________________________\n'),
+	prettyPrintHeader: '\n  ' + chalk.bgCyan.black(' TIMECARD ') + chalk.cyan(' Logged Hours ') + '\n  ' + chalk.gray('Project: ') + chalk.gray(projectName) + '\n  ' + chalk.gray('______________________________________________\n'),
 	prettyPrintBorder: chalk.gray('\n  ______________________________________________')
 };
 
