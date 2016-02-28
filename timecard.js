@@ -72,13 +72,13 @@ TimeCard.prototype.clockin = function (cb) {
 		var date = new Date().toString();
 
 		var tc = {};
+		tc.id = self.hours.length;
 		tc.date = date.slice(0, 15);
 		tc.startTime = date.slice(16, 24);
-		tc.id = self.hours.length;
 
 		timeCardData.push(tc);
 
-		self.writeTimeCard(JSON.stringify(timeCardData), reportSuccessfulClockIn);
+		self.writeTimeCard(JSON.stringify(timeCardData, null, 4), reportSuccessfulClockIn);
 	});
 	TC.catch(function (err) {
 		if (err) {
@@ -105,7 +105,7 @@ TimeCard.prototype.clockout = function (cb) {
 			var date = new Date().toString();
 
 			self.hours[self.pendingClockoutIndex].endTime = date.slice(16, 24);
-			self.writeTimeCard(JSON.stringify(self.hours), reportSuccessfulClockOut);
+			self.writeTimeCard(JSON.stringify(self.hours, null, 4), reportSuccessfulClockOut);
 		} else {
 			cb(new Error(errors.noClockInFound));
 		}
