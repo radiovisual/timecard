@@ -78,7 +78,7 @@ TimeCard.prototype.clockin = function (cb) {
 
 		timeCardData.push(tc);
 
-		self.writeTimeCard(JSON.stringify(timeCardData, null, 4), reportSuccessfulClockIn);
+		self.writeTimeCard(JSON.stringify(timeCardData, null, 2), reportSuccessfulClockIn);
 	});
 	TC.catch(function (err) {
 		if (err) {
@@ -105,7 +105,12 @@ TimeCard.prototype.clockout = function (cb) {
 			var date = new Date().toString();
 
 			self.hours[self.pendingClockoutIndex].endTime = date.slice(16, 24);
-			self.writeTimeCard(JSON.stringify(self.hours, null, 4), reportSuccessfulClockOut);
+
+			// report the last 'shift' time and the total time to the console.
+			var shiftSeconds = duration(self.hours[self.pendingClockoutIndex].startTime, self.hours[self.pendingClockoutIndex].endTime).seconds;
+			message.clockoutSummary(shiftSeconds, self.totalSeconds + shiftSeconds);
+
+			self.writeTimeCard(JSON.stringify(self.hours, null, 2), reportSuccessfulClockOut);
 		} else {
 			cb(new Error(errors.noClockInFound));
 		}

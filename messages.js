@@ -56,6 +56,16 @@ module.exports.summary = function (seconds) {
 	console.log();
 };
 
+module.exports.clockoutSummary = function (shiftSeconds, totalSeconds) {
+	var total = convert(totalSeconds);
+	var shift = convert(shiftSeconds);
+	var totalStr = makeTimeString(total);
+	var shiftStr = makeTimeString(shift);
+
+	console.log(chalk.cyan('\n  Total Shift Time: ') + chalk.gray(shiftStr));
+	console.log(chalk.cyan('  Total Project Time: ') + chalk.gray(totalStr));
+};
+
 /**
  * Pretty-print the timecard data.
  *
