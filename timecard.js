@@ -74,6 +74,7 @@ TimeCard.prototype.clockin = function (cb) {
 		var tc = {};
 		tc.date = date.slice(0, 15);
 		tc.startTime = date.slice(16, 24);
+		tc.id = self.hours.length;
 
 		timeCardData.push(tc);
 
