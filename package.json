@@ -4,7 +4,9 @@
   "description": "Keep track of your project development time",
   "main": "timecard.js",
   "scripts": {
-    "test": "xo"
+    "test": "xo && npm run build && ava && nyc ava",
+    "build": "babel lib --out-dir=dist --optional=runtime",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -12,11 +14,10 @@
   },
   "preferGlobal": true,
   "bin": {
-    "timecard": "timecard.js"
+    "timecard": "dist/cli.js"
   },
   "files": [
-    "messages.js",
-    "timecard.js"
+    "dist"
   ],
   "keywords": [
     "time",
@@ -42,21 +43,46 @@
   },
   "homepage": "https://github.com/radiovisual/timecard#readme",
   "dependencies": {
+    "babel-runtime": "^5.8.29",
     "chalk": "^1.1.1",
     "convert-seconds": "^1.0.0",
     "each-async": "^1.1.1",
     "get-stdin": "^5.0.0",
     "inquirer": "^0.9.0",
     "json-parse-helpfulerror": "^1.0.3",
+    "meow": "^3.7.0",
     "minimist": "^1.2.0",
     "multiline": "^1.0.2",
     "object-assign": "^4.0.1",
     "pendel": "^1.0.0",
     "pinkie-promise": "^1.0.0",
     "simple-zeropad": "^1.0.3",
-    "twelve-to-twentyfour": "^0.1.3"
+    "subarg": "^1.0.0",
+    "twelve-to-twentyfour": "^0.1.3",
+    "update-notifier": "^0.6.1",
+    "valid-file": "0.0.1"
   },
   "devDependencies": {
+    "babel": "^5.8.23",
+    "coveralls": "^2.11.6",
+    "nyc": "^5.6.0",
+    "path-exists": "^2.1.0",
+    "rimraf": "^2.5.2",
     "xo": "^0.12.1"
+  },
+  "xo": {
+    "ignores": [
+      "dist/**"
+    ],
+    "overrides": [
+      {
+        "files": "cli.js",
+        "esnext": false
+      },
+      {
+        "files": "lib",
+        "esnext": true
+      }
+    ]
   }
 }
