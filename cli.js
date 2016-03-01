@@ -29,7 +29,7 @@ function init(args) {
 		cli.showHelp(1);
 	}
 
-	var timecard = new Timecard({filepath: __dirname});
+	var timecard = new Timecard({filepath: process.cwd()});
 
 	if (args.indexOf('new') > -1) {
 		timecard.create();
