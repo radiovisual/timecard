@@ -74,7 +74,7 @@ function summary(seconds) {
 }
 
 function prettyPrintHeader() {
-  return '\n  ' + _chalk2['default'].bgCyan.black(' TIMECARD ') + ' ' + _chalk2['default'].cyan(' Logged Hours ') + '\n  ' + _chalk2['default'].gray('Project:') + ' ' + _chalk2['default'].gray(this.filepath) + ' \n  ' + _chalk2['default'].gray('______________________________________________') + '\n';
+  return '\n  ' + _chalk2['default'].bgCyan.black(' TIMECARD ') + ' ' + _chalk2['default'].cyan(' Logged Hours ') + '\n  ' + _chalk2['default'].gray('Project:') + ' ' + _chalk2['default'].gray(this.filepath) + ' \n  ' + _chalk2['default'].gray('______________________________________________') + '\n\n';
 }
 
 function clockoutSummary(shiftSeconds, totalSeconds) {
@@ -94,7 +94,7 @@ function clockoutSummary(shiftSeconds, totalSeconds) {
 
 function prettyPrintEntry(timeobj) {
   var time = makeTimeString((0, _pendel2['default'])(timeobj.startTime, timeobj.endTime));
-  return '  ' + _chalk2['default'].white(timeobj.date) + ' ' + _chalk2['default'].cyan((0, _twelveToTwentyfour2['default'])(timeobj.startTime)) + ' - ' + _chalk2['default'].cyan((0, _twelveToTwentyfour2['default'])(timeobj.endTime)) + ' ' + _chalk2['default'].gray('[') + time + _chalk2['default'].gray(']');
+  return '  ' + _chalk2['default'].white(timeobj.date) + ' ' + _chalk2['default'].cyan((0, _twelveToTwentyfour2['default'])(timeobj.startTime)) + ' - ' + _chalk2['default'].cyan((0, _twelveToTwentyfour2['default'])(timeobj.endTime)) + ' ' + _chalk2['default'].gray('[') + time + _chalk2['default'].gray(']') + '\n';
 }
 
 /**

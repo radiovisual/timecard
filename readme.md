@@ -2,7 +2,7 @@
 
 > Keep track of your project development time.
 
-[![Coverage Status](https://coveralls.io/repos/github/radiovisual/timecard/badge.svg?branch=master)](https://coveralls.io/github/radiovisual/timecard?branch=master)
+[![Build Status](https://travis-ci.org/radiovisual/timecard.svg?branch=master)](https://travis-ci.org/radiovisual/timecard) [![Coverage Status](https://coveralls.io/repos/github/radiovisual/timecard/badge.svg?branch=master)](https://coveralls.io/github/radiovisual/timecard?branch=master)
 
 ![timecard print screenshot](media/timecard-print-screenshot.png)
 
