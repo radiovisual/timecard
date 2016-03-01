@@ -14,7 +14,7 @@
   },
   "preferGlobal": true,
   "bin": {
-    "timecard": "dist/cli.js"
+    "timecard": "cli.js"
   },
   "files": [
     "dist"
