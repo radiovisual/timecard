@@ -54,6 +54,7 @@
     "lodash.sortby": "^4.2.0",
     "meow": "^3.7.0",
     "multiline": "^1.0.2",
+    "native-promise-only": "^0.8.1",
     "object-assign": "^4.0.1",
     "pendel": "^1.0.0",
     "simple-zeropad": "^1.0.3",
