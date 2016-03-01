@@ -3,5 +3,8 @@ coverage
 .nyc_output
 node_modules
 
+# don't track the babel output
+dist
+
 # Ignore the testing file
 .timecard.json
