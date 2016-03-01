@@ -3,13 +3,11 @@
 'use strict';
 var updateNotifier = require('update-notifier');
 var multiline = require('multiline');
-var Timecard = require('./dist/');
+var Timecard = require('./dist/index.js');
 var subarg = require('subarg');
 var meow = require('meow');
 
 var cli = meow(multiline(function () {/*
-
-  Record your project development time.
 
   Get timecard setup with the 'new' command, then use the 'clockin' and 'clockout' commands
   to record your time. When you want to see a summary of your time, use the 'print' command.
@@ -18,7 +16,7 @@ var cli = meow(multiline(function () {/*
     timecard new            setup a blank timecard for your project
     timecard clockin        set the start time
     timecard clockout       set the end time
- 	timecard print          print a summary of your time
+    timecard print          print a summary of your time
 
   Options
     -h, --help              Show this help message
@@ -26,16 +24,15 @@ var cli = meow(multiline(function () {/*
 
 */}));
 
-function init(args, options) {
+function init(args) {
 	if (args.length === 0) {
 		cli.showHelp(1);
 	}
 
 	var timecard = new Timecard({filepath: __dirname});
-	console.log('args', args, 'options', options);
 
 	if (args.indexOf('new') > -1) {
-		timecard.new();
+		timecard.create();
 	}
 
 	if (args.indexOf('clockin') > -1) {
@@ -47,7 +44,7 @@ function init(args, options) {
 	}
 
 	if (args.indexOf('print') > -1) {
-		timecard.print();
+		timecard.printTimecard();
 	}
 }
 

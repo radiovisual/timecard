@@ -1,5 +1,8 @@
 # timecard
+
 > Keep track of your project development time.
+
+[![Coverage Status](https://coveralls.io/repos/github/radiovisual/timecard/badge.svg?branch=master)](https://coveralls.io/github/radiovisual/timecard?branch=master)
 
 ![timecard print screenshot](media/timecard-print-screenshot.png)
 

@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -7,6 +5,8 @@ var _createClass = require('babel-runtime/helpers/create-class')['default'];
 var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
 
 var _regeneratorRuntime = require('babel-runtime/regenerator')['default'];
+
+var _Promise = require('babel-runtime/core-js/promise')['default'];
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
@@ -18,10 +18,6 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _pendel = require('pendel');
-
-var _pendel2 = _interopRequireDefault(_pendel);
-
 var _validFile = require('valid-file');
 
 var _validFile2 = _interopRequireDefault(_validFile);
@@ -30,9 +26,13 @@ var _inquirer = require('inquirer');
 
 var _inquirer2 = _interopRequireDefault(_inquirer);
 
-// refactor these into one
+var _pendel = require('pendel');
 
-var _messages = require('./messages');
+var _pendel2 = _interopRequireDefault(_pendel);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
 
 var TimeCard = (function () {
 	/**
@@ -47,8 +47,7 @@ var TimeCard = (function () {
 
 		this.options = (0, _objectAssign2['default'])({}, options);
 
-		this.filepath = this.options.filepath || __dirname;
-		this.hours = [];
+		this.filepath = this.options.filepath ? _path2['default'].join(this.options.filepath, '.timecard.json') : _path2['default'].join(__dirname, '.timecard.json');
 		this.clockoutIsPending = false;
 		this.pendingClockoutIndex = null;
 		this.totalSeconds = 0;
@@ -63,35 +62,38 @@ var TimeCard = (function () {
 	_createClass(TimeCard, [{
 		key: 'create',
 		value: function create() {
-			var self, question;
+			var self;
 			return _regeneratorRuntime.async(function create$(context$2$0) {
 				while (1) switch (context$2$0.prev = context$2$0.next) {
 					case 0:
 						self = this;
+						return context$2$0.abrupt('return', new _Promise(function (resolve) {
+							// First check to see if the file already exists
+							if (_validFile2['default'].sync(self.filepath)) {
+								var question = [{
+									type: 'confirm',
+									name: 'eraseCard',
+									message: 'A timecard file already exists. Do you want to erase it and start over?',
+									'default': false
+								}];
 
-						// First check to see if the file already exists
-						if (_validFile2['default'].sync(self.filepath)) {
-							question = [{
-								type: 'confirm',
-								name: 'eraseCard',
-								message: 'A timecard file already exists. Do you want to erase it and start over?',
-								'default': false
-							}];
-
-							_inquirer2['default'].prompt(question, function (answer) {
-								if (answer.eraseCard === true) {
-									self.writeTimeCard('[]').then(function () {
-										self.reportSuccessfulNewTimeCard();
-									});
-								} else {
-									process.exit();
-								}
-							});
-						} else {
-							self.writeTimeCard('[]').then(function () {
-								self.reportSuccessfulNewTimeCard();
-							});
-						}
+								_inquirer2['default'].prompt(question, function (answer) {
+									if (answer.eraseCard === true) {
+										self.writeTimeCard('[]').then(function () {
+											self.reportSuccessfulNewTimeCard();
+											resolve(self);
+										});
+									} else {
+										process.exit();
+									}
+								});
+							} else {
+								self.writeTimeCard('[]').then(function () {
+									self.reportSuccessfulNewTimeCard();
+									resolve(self);
+								});
+							}
+						}));
 
 					case 2:
 					case 'end':
@@ -108,41 +110,52 @@ var TimeCard = (function () {
 	}, {
 		key: 'clockin',
 		value: function clockin() {
-			var self, date, tc;
+			var self;
 			return _regeneratorRuntime.async(function clockin$(context$2$0) {
+				var _this = this;
+
 				while (1) switch (context$2$0.prev = context$2$0.next) {
 					case 0:
 						self = this;
-						context$2$0.next = 3;
-						return _regeneratorRuntime.awrap(self.getTimeCardData());
+						return context$2$0.abrupt('return', new _Promise(function callee$2$0(resolve) {
+							var date, tc;
+							return _regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+								while (1) switch (context$3$0.prev = context$3$0.next) {
+									case 0:
+										context$3$0.next = 2;
+										return _regeneratorRuntime.awrap(self.getTimeCardData());
 
-					case 3:
-						context$2$0.next = 5;
-						return _regeneratorRuntime.awrap(self.processTimeCardData());
+									case 2:
+										if (!self.clockoutIsPending) {
+											context$3$0.next = 4;
+											break;
+										}
 
-					case 5:
-						if (!self.clockoutIsPending) {
-							context$2$0.next = 7;
-							break;
-						}
+										throw new Error(self.errors.clockOutIsPending);
 
-						throw new Error(_messages.errors.clockOutIsPending);
+									case 4:
+										date = new Date().toString();
+										tc = {
+											id: self.timecardData.length,
+											date: date.slice(0, 15),
+											startTime: date.slice(16, 24)
+										};
 
-					case 7:
-						date = new Date().toString();
-						tc = {
-							id: self.hours.length,
-							date: date.slice(0, 15),
-							startTime: date.slice(16, 24)
-						};
+										self.timecardData.push(tc);
 
-						self.timecardData.push(tc);
+										self.writeTimeCard(JSON.stringify(self.timecardData, null, 2)).then(function () {
+											self.reportSuccessfulClockIn();
+											resolve(self);
+										});
 
-						self.writeTimeCard(JSON.stringify(self.timecardData, null, 2)).then(function () {
-							self.reportSuccessfulClockIn();
-						});
+									case 8:
+									case 'end':
+										return context$3$0.stop();
+								}
+							}, null, _this);
+						}));
 
-					case 11:
+					case 2:
 					case 'end':
 						return context$2$0.stop();
 				}
@@ -157,43 +170,56 @@ var TimeCard = (function () {
 	}, {
 		key: 'clockout',
 		value: function clockout() {
-			var self, date, shiftSeconds;
+			var self;
 			return _regeneratorRuntime.async(function clockout$(context$2$0) {
+				var _this2 = this;
+
 				while (1) switch (context$2$0.prev = context$2$0.next) {
 					case 0:
 						self = this;
-						context$2$0.next = 3;
-						return _regeneratorRuntime.awrap(self.getTimeCardData());
+						return context$2$0.abrupt('return', new _Promise(function callee$2$0(resolve) {
+							var date, shiftSeconds;
+							return _regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+								while (1) switch (context$3$0.prev = context$3$0.next) {
+									case 0:
+										context$3$0.next = 2;
+										return _regeneratorRuntime.awrap(self.getTimeCardData());
 
-					case 3:
-						context$2$0.next = 5;
-						return _regeneratorRuntime.awrap(self.processTimeCardData());
+									case 2:
+										if (!self.clockoutIsPending) {
+											context$3$0.next = 11;
+											break;
+										}
 
-					case 5:
-						if (!self.clockoutIsPending) {
-							context$2$0.next = 13;
-							break;
-						}
+										date = new Date().toString();
 
-						date = new Date().toString();
+										self.timecardData[self.pendingClockoutIndex].endTime = date.slice(16, 24);
 
-						self.hours[self.pendingClockoutIndex].endTime = date.slice(16, 24);
+										// report the last 'shift' time and the total time to the console.
+										shiftSeconds = (0, _pendel2['default'])(self.timecardData[self.pendingClockoutIndex].startTime, self.timecardData[self.pendingClockoutIndex].endTime).seconds;
 
-						// report the last 'shift' time and the total time to the console.
-						shiftSeconds = (0, _pendel2['default'])(self.hours[self.pendingClockoutIndex].startTime, self.hours[self.pendingClockoutIndex].endTime).seconds;
+										console.log(self.clockoutSummary(shiftSeconds, self.totalSeconds + shiftSeconds));
 
-						self.clockoutSummary(shiftSeconds, self.totalSeconds + shiftSeconds);
+										self.totalSeconds += shiftSeconds;
 
-						self.writeTimeCard(JSON.stringify(self.hours, null, 2)).then(function () {
-							self.reportSuccessfulClockOut();
-						});
-						context$2$0.next = 14;
-						break;
+										self.writeTimeCard(JSON.stringify(self.timecardData, null, 2)).then(function () {
+											self.reportSuccessfulClockOut();
+											resolve(self);
+										});
+										context$3$0.next = 12;
+										break;
 
-					case 13:
-						throw new Error(_messages.errors.noClockInFound);
+									case 11:
+										throw new Error(self.errors.noClockInFound);
 
-					case 14:
+									case 12:
+									case 'end':
+										return context$3$0.stop();
+								}
+							}, null, _this2);
+						}));
+
+					case 2:
 					case 'end':
 						return context$2$0.stop();
 				}
@@ -206,32 +232,42 @@ var TimeCard = (function () {
    */
 
 	}, {
-		key: 'print',
-		value: function print() {
+		key: 'printTimecard',
+		value: function printTimecard() {
 			var self;
-			return _regeneratorRuntime.async(function print$(context$2$0) {
+			return _regeneratorRuntime.async(function printTimecard$(context$2$0) {
+				var _this3 = this;
+
 				while (1) switch (context$2$0.prev = context$2$0.next) {
 					case 0:
 						self = this;
-						context$2$0.next = 3;
-						return _regeneratorRuntime.awrap(self.getTimeCardData());
+						return context$2$0.abrupt('return', new _Promise(function callee$2$0(resolve) {
+							var output;
+							return _regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+								while (1) switch (context$3$0.prev = context$3$0.next) {
+									case 0:
+										context$3$0.next = 2;
+										return _regeneratorRuntime.awrap(self.getTimeCardData());
 
-					case 3:
-						context$2$0.next = 5;
-						return _regeneratorRuntime.awrap(self.processTimeCardData());
+									case 2:
+										output = self.prettyPrintHeader();
 
-					case 5:
+										self.timecardData.map(function (item) {
+											output += self.prettyPrintEntry(item);
+										});
+										output += self.messages.prettyPrintBorder;
+										output += self.summary(self.totalSeconds);
+										console.log(output);
+										resolve(output);
 
-						console.log(_messages.messages.prettyPrintHeader);
+									case 8:
+									case 'end':
+										return context$3$0.stop();
+								}
+							}, null, _this3);
+						}));
 
-						self.timecardData.map(function (item) {
-							(0, _messages.prettyprint)(item);
-						});
-
-						console.log(_messages.messages.prettyPrintBorder);
-						(0, _messages.summary)(self.totalSeconds);
-
-					case 9:
+					case 2:
 					case 'end':
 						return context$2$0.stop();
 				}
