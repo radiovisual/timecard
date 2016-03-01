@@ -17,7 +17,8 @@
     "timecard": "cli.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "cli.js"
   ],
   "keywords": [
     "time",
