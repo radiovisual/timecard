@@ -42,7 +42,7 @@ function init(args, options) {
 		cli.showHelp(1);
 	}
 
-	var timecard = new Timecard({filepath: process.cwd()});
+	var timecard = new Timecard({filepath: process.cwd(), name: cli.pkg.name});
 
 	if (args.indexOf('new') > -1 || options.new) {
 		timecard.create();

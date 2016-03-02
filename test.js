@@ -24,6 +24,16 @@ test('creates a new timecard', async t => {
 	t.is(data, '[]');
 });
 
+test('sets project name', async t => {
+	const tc = new Timecard({name: 'awesome-project'});
+	t.is(tc.name, 'awesome-project');
+});
+
+test('sets filepath', async t => {
+	const tc = new Timecard({filepath: 'some/path'});
+	t.is(tc.filepath, 'some/path/.timecard.json');
+});
+
 test('clockin', async t => {
 	await timecard.create();
 	await timecard.clockin();
