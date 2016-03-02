@@ -14,25 +14,32 @@ $ npm install --global timecard
 ## Usage
 
 To create a **new timecard** for your project
-```sh
+
+```
 $ timecard new
 ```
 
 To **clockin** (start working)
-```sh
+
+```
 $ timecard clockin
 ```
 
 To **clockout** (stop working)
-```sh
+
+```
 $ timecard clockout
 ```
 
 To see a **print summary** of your time
-```sh
+
+```
 $ timecard print
 ```
 
+**Tip:** If you prefer the shorthand, all of these commands have flag aliases. Check the [help output](https://github.com/radiovisual/timecard#options) for details.
+
+ 
 ## Notes
 
 ### `.timecard.json`
@@ -49,20 +56,25 @@ which is fine, just remember that this file must be valid JSON.
 ```
 $ timecard --help
    
-Record your project development time.
+  Keep track of your project development time
 
-Get timecard setup with the `new` command, then use the `clockin` and `clockout` commands
-to record your time. When you want to see a summary of your time, use the `print` command.
+  Get timecard setup with the 'new' command, then use the 'clockin' and 'clockout' commands
+  to record your time. When you want to see a summary of your time, use the 'print' command.
 
-Commands
-    timecard new            setup a blank timecard for your project
-    timecard clockin        set the start time
-    timecard clockout       set the end time
-    timecard print          print a summary of your time
+  Commands
+    timecard new            Setup a blank timecard for your project
+    timecard clockin        Set the start time for your shift
+    timecard clockout       Set the end time for your shift
+    timecard print          Print a summary of your time
 
-Options
+  Options
     -h, --help              Show this help message
-    -v, --version           Show the current timecard version     
+    -v, --version           Show the current timecard version
+    -i, --clockin           Alias for the clockin command
+    -o, --clockout          Alias for the clockout command
+    -n, --new               Alias for the new command
+    -p, --print             Alias for the print command
+       
 ```
 
 ## License
