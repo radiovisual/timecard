@@ -74,7 +74,7 @@ test('records total seconds', async t => {
 	await wait(3);
 	await timecard.clockout();
 
-	t.is(timecard.totalSeconds, 3);
+	t.true(timecard.totalSeconds >= 3);
 });
 
 test('utils.getTimeCardData', async t => {
