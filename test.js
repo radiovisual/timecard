@@ -94,7 +94,7 @@ test.serial('utils.writeTimeCard', async t => {
 	t.is(data, 'HEY!');
 });
 
-test('prints output', async t => {
+test.serial('prints output', async t => {
 	await timecard.create();
 	await timecard.clockin();
 	await wait(3);
