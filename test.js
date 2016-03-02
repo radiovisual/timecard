@@ -17,7 +17,7 @@ test('expose a constructor', t => {
 	t.is(typeof Timecard, 'function');
 });
 
-test.serial('creates a new timecard', async t => {
+test('creates a new timecard', async t => {
 	await timecard.create();
 
 	const data = await pify(fs.readFile)(timecardPath, 'utf8');
@@ -34,7 +34,7 @@ test('sets filepath', async t => {
 	t.is(tc.filepath, 'some/path/.timecard.json');
 });
 
-test.serial('clockin', async t => {
+test('clockin', async t => {
 	await timecard.create();
 	await timecard.clockin();
 
@@ -49,7 +49,7 @@ test.serial('clockin', async t => {
 	t.is(typeof data[0].startTime, 'string');
 });
 
-test.serial('clockout', async t => {
+test('clockout', async t => {
 	await timecard.create();
 	await timecard.clockin();
 	await timecard.clockout();
@@ -67,7 +67,7 @@ test.serial('clockout', async t => {
 	t.is(typeof shift.endTime, 'string');
 });
 
-test.serial('records total seconds', async t => {
+test('records total seconds', async t => {
 	await timecard.create();
 	await timecard.clockin();
 
@@ -94,7 +94,7 @@ test.serial('utils.writeTimeCard', async t => {
 	t.is(data, 'HEY!');
 });
 
-test.serial('prints output', async t => {
+test('prints output', async t => {
 	await timecard.create();
 	await timecard.clockin();
 	await wait(3);
