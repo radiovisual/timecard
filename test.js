@@ -17,7 +17,7 @@ test('expose a constructor', t => {
 	t.is(typeof Timecard, 'function');
 });
 
-test('creates a new timecard', async t => {
+test.serial('creates a new timecard', async t => {
 	await timecard.create();
 
 	const data = await pify(fs.readFile)(timecardPath, 'utf8');
@@ -34,7 +34,7 @@ test('sets filepath', async t => {
 	t.is(tc.filepath, 'some/path/.timecard.json');
 });
 
-test('clockin', async t => {
+test.serial('clockin', async t => {
 	await timecard.create();
 	await timecard.clockin();
 
@@ -49,25 +49,25 @@ test('clockin', async t => {
 	t.is(typeof data[0].startTime, 'string');
 });
 
-test('clockout', async t => {
+test.serial('clockout', async t => {
 	await timecard.create();
 	await timecard.clockin();
 	await timecard.clockout();
 
 	let data = await pify(fs.readFile)(timecardPath, 'utf8');
-	data = JSON.parse(data);
-	t.is(data.length, 1);
-	t.true(data[0].hasOwnProperty('id'));
-	t.true(data[0].hasOwnProperty('date'));
-	t.true(data[0].hasOwnProperty('startTime'));
-	t.true(data[0].hasOwnProperty('endTime'));
-	t.is(typeof data[0].id, 'number');
-	t.is(typeof data[0].date, 'string');
-	t.is(typeof data[0].startTime, 'string');
-	t.is(typeof data[0].endTime, 'string');
+	const shift = JSON.parse(data)[0];
+	t.is(typeof shift, 'object');
+	t.true(shift.hasOwnProperty('id'));
+	t.true(shift.hasOwnProperty('date'));
+	t.true(shift.hasOwnProperty('startTime'));
+	t.true(shift.hasOwnProperty('endTime'));
+	t.is(typeof shift.id, 'number');
+	t.is(typeof shift.date, 'string');
+	t.is(typeof shift.startTime, 'string');
+	t.is(typeof shift.endTime, 'string');
 });
 
-test('records total seconds', async t => {
+test.serial('records total seconds', async t => {
 	await timecard.create();
 	await timecard.clockin();
 
@@ -77,7 +77,7 @@ test('records total seconds', async t => {
 	t.true(timecard.totalSeconds >= 3);
 });
 
-test('utils.getTimeCardData', async t => {
+test.serial('utils.getTimeCardData', async t => {
 	await timecard.create();
 	await timecard.clockin();
 	timecard.getTimeCardData().then(data => {
@@ -94,7 +94,7 @@ test.serial('utils.writeTimeCard', async t => {
 	t.is(data, 'HEY!');
 });
 
-test('prints output', async t => {
+test.serial('prints output', async t => {
 	await timecard.create();
 	await timecard.clockin();
 	await wait(3);
