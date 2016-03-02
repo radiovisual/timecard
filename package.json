@@ -1,6 +1,6 @@
 {
   "name": "timecard",
-  "version": "0.1.6",
+  "version": "0.2.6",
   "description": "Keep track of your project development time",
   "main": "timecard.js",
   "scripts": {
