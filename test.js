@@ -4,6 +4,7 @@ import path from 'path';
 import rm from 'rimraf';
 import pify from 'pify';
 import fs from 'fs';
+import wait from 'wait-p';
 
 let timecard;
 const timecardPath = path.join(__dirname, '.timecard.json');
@@ -71,7 +72,7 @@ test('records total seconds', async t => {
 	await timecard.create();
 	await timecard.clockin();
 
-	await wait(3);
+	await wait(3000);
 	await timecard.clockout();
 
 	t.true(timecard.totalSeconds >= 3);
@@ -97,18 +98,10 @@ test.serial('utils.writeTimeCard', async t => {
 test.serial('prints output', async t => {
 	await timecard.create();
 	await timecard.clockin();
-	await wait(3);
+	await wait(3000);
 	await timecard.clockout();
 	const output = await timecard.printTimecard();
 
 	t.is(typeof output, 'string');
 	t.true(output.length > 400);
 });
-
-function wait(seconds) {
-	return new Promise(resolve => {
-		setTimeout(() => {
-			resolve();
-		}, seconds * 1000);
-	});
-}
