@@ -1,62 +1,66 @@
-import test from 'ava';
+import {eraseThenCreatePrompt, createPrompt, projectName, eraseCard} from './dist/prompts.js';
 import Timecard from './dist/index.js';
+import wait from 'wait-p';
 import path from 'path';
 import rm from 'rimraf';
 import pify from 'pify';
+import test from 'ava';
 import fs from 'fs';
-import wait from 'wait-p';
 
 let timecard;
 const timecardPath = path.join(__dirname, '.timecard.json');
 
 test.beforeEach(() => {
 	rm.sync(timecardPath);
-	timecard = new Timecard({filepath: __dirname});
+	timecard = new Timecard({filepath: __dirname, prompt: false});
 });
 
 test('expose a constructor', t => {
 	t.is(typeof Timecard, 'function');
 });
 
-test('creates a new timecard', async t => {
+test.serial('creates a new timecard', async t => {
 	await timecard.create();
 
 	const data = await pify(fs.readFile)(timecardPath, 'utf8');
-	t.is(data, '[]');
+	t.true(/"shifts": \[\]/.test(data));
 });
 
-test('sets project name', async t => {
-	const tc = new Timecard({name: 'awesome-project'});
-	t.is(tc.name, 'awesome-project');
+test.serial('sets project name', async t => {
+	const tc = new Timecard();
+	t.is(tc.name, 'timecard');
 });
 
-test('sets filepath', async t => {
+test.serial('sets filepath', async t => {
 	const tc = new Timecard({filepath: 'some/path'});
 	t.is(tc.filepath, 'some/path/.timecard.json');
 });
 
-test('clockin', async t => {
+test.serial('clockin', async t => {
 	await timecard.create();
 	await timecard.clockin();
 
 	let data = await pify(fs.readFile)(timecardPath, 'utf8');
 	data = JSON.parse(data);
-	t.is(data.length, 1);
-	t.true(data[0].hasOwnProperty('id'));
-	t.true(data[0].hasOwnProperty('date'));
-	t.true(data[0].hasOwnProperty('startTime'));
-	t.is(typeof data[0].id, 'number');
-	t.is(typeof data[0].date, 'string');
-	t.is(typeof data[0].startTime, 'string');
+
+	t.is(data.shifts.length, 1);
+	t.true(data.shifts[0].hasOwnProperty('id'));
+	t.true(data.shifts[0].hasOwnProperty('date'));
+	t.true(data.shifts[0].hasOwnProperty('startTime'));
+	t.is(typeof data.shifts[0].id, 'number');
+	t.is(typeof data.shifts[0].date, 'string');
+	t.is(typeof data.shifts[0].startTime, 'string');
 });
 
-test('clockout', async t => {
+test.serial('clockout', async t => {
 	await timecard.create();
 	await timecard.clockin();
 	await timecard.clockout();
 
 	let data = await pify(fs.readFile)(timecardPath, 'utf8');
-	const shift = JSON.parse(data)[0];
+	const tc = JSON.parse(data);
+	const shift = tc.shifts[0];
+
 	t.is(typeof shift, 'object');
 	t.true(shift.hasOwnProperty('id'));
 	t.true(shift.hasOwnProperty('date'));
@@ -68,7 +72,7 @@ test('clockout', async t => {
 	t.is(typeof shift.endTime, 'string');
 });
 
-test('records total seconds', async t => {
+test.serial('records total seconds', async t => {
 	await timecard.create();
 	await timecard.clockin();
 
@@ -88,6 +92,10 @@ test.serial('utils.getTimeCardData', async t => {
 	});
 });
 
+test.serial('utils.blankTimecard', t => {
+	t.is(timecard.blankTimecard('test-project'), '{\n  "project": "test-project",\n  "shifts": [],\n  "totals": {\n    "hours": 0,\n    "minutes": 0,\n    "seconds": 0\n  }\n}');
+});
+
 test.serial('utils.writeTimeCard', async t => {
 	await timecard.writeTimeCard('HEY!');
 
@@ -104,4 +112,20 @@ test.serial('prints output', async t => {
 
 	t.is(typeof output, 'string');
 	t.true(output.length > 400);
+});
+
+test.serial('prompts', t => {
+	t.true(Array.isArray(eraseThenCreatePrompt()));
+	t.true(Array.isArray(createPrompt()));
+	t.is(Object.keys(projectName).toString(), 'type,name,message,default,validate');
+	t.is(Object.keys(eraseCard).toString(), 'type,name,message,default');
+});
+
+test.serial('prompts: projectName.validate', t => {
+	t.true(projectName.validate('foo'));
+	t.is(projectName.validate(''), 'You have to provide a project name');
+});
+
+test.serial('prompts: eraseThenCreatePrompt.projectName.when', t => {
+	t.is(eraseThenCreatePrompt()[1].when({eraseCard: true}), true);
 });
