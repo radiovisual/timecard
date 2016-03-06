@@ -74,6 +74,7 @@ $ timecard --help
     -o, --clockout          Alias for the clockout command
     -n, --new               Alias for the new command
     -p, --print             Alias for the print command
+    --no-prompt             Use with `new` to silence all prompts and overwrite existing timecard
        
 ```
 
