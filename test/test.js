@@ -1,5 +1,5 @@
-import {eraseThenCreatePrompt, createPrompt, projectName, eraseCard} from './dist/prompts.js';
-import Timecard from './dist/index.js';
+import {eraseThenCreatePrompt, createPrompt, projectName, eraseCard} from '../dist/prompts.js';
+import Timecard from '../dist/index.js';
 import wait from 'wait-p';
 import path from 'path';
 import rm from 'rimraf';
@@ -26,9 +26,14 @@ test.serial('creates a new timecard', async t => {
 	t.true(/"shifts": \[\]/.test(data));
 });
 
+test.serial('create() returns a promise', async t => {
+	const tc = await timecard.create();
+	t.is(tc.totalSeconds, 0);
+});
+
 test.serial('sets project name', async t => {
 	const tc = new Timecard();
-	t.is(tc.name, 'timecard');
+	t.is(tc.name, 'test');
 });
 
 test.serial('sets filepath', async t => {
@@ -129,3 +134,4 @@ test.serial('prompts: projectName.validate', t => {
 test.serial('prompts: eraseThenCreatePrompt.projectName.when', t => {
 	t.is(eraseThenCreatePrompt()[1].when({eraseCard: true}), true);
 });
+
