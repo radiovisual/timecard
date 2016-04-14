@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /* eslint-disable no-inline-comments */
 'use strict';
-var objectAssign = require('object-assign');
 var updateNotifier = require('update-notifier');
+var utils = require('./dist/utils.js');
+var objectAssign = require('object-assign');
 var Timecard = require('./dist/index.js');
 var multiline = require('multiline');
 var subarg = require('subarg');
@@ -26,7 +27,7 @@ var cli = meow(multiline(function () {/*
     -o,  --clockout         Alias for the clockout command
     -n,  --new              Alias for the new command
     -p,  --print            Alias for the print command
-    --no-prompt				Use with `new` to silence all prompts and overwrite existing timecard.
+    --no-prompt             Use with `new` to silence all prompts and overwrite existing timecard.
 
 */}), {
 	alias: {
@@ -49,6 +50,11 @@ function init(args, options) {
 		name: cli.pkg.name,
 		prompt: true
 	};
+
+	// check for valid timecard json on any command except for the new command.
+	if (args.indexOf('new') === -1 && !options.new) {
+		utils.checkForValidTimecard();
+	}
 
 	options = objectAssign(defaults, options);
 
