@@ -4,9 +4,9 @@
   "description": "Keep track of your project development time",
   "main": "timecard.js",
   "scripts": {
-    "test": "xo && npm run build && ava --verbose",
+    "test": "xo && npm run build && nyc ava --verbose",
     "build": "babel lib --out-dir=dist --optional=runtime",
-    "coveralls": "nyc ava && nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
