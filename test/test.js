@@ -1,11 +1,11 @@
-import {eraseThenCreatePrompt, createPrompt, projectName, eraseCard} from '../dist/prompts.js';
-import Timecard from '../dist/index.js';
-import wait from 'wait-p';
+import fs from 'fs';
 import path from 'path';
+import wait from 'wait-p';
 import rm from 'rimraf';
 import pify from 'pify';
 import test from 'ava';
-import fs from 'fs';
+import Timecard from '../dist/index.js';
+import {eraseThenCreatePrompt, createPrompt, projectName, eraseCard} from '../dist/prompts.js';
 
 let timecard;
 const timecardPath = path.join(__dirname, '.timecard.json');
@@ -49,9 +49,6 @@ test.serial('clockin', async t => {
 	data = JSON.parse(data);
 
 	t.is(data.shifts.length, 1);
-	t.true(data.shifts[0].hasOwnProperty('id'));
-	t.true(data.shifts[0].hasOwnProperty('date'));
-	t.true(data.shifts[0].hasOwnProperty('startTime'));
 	t.is(typeof data.shifts[0].id, 'number');
 	t.is(typeof data.shifts[0].date, 'string');
 	t.is(typeof data.shifts[0].startTime, 'string');
@@ -67,10 +64,6 @@ test.serial('clockout', async t => {
 	const shift = tc.shifts[0];
 
 	t.is(typeof shift, 'object');
-	t.true(shift.hasOwnProperty('id'));
-	t.true(shift.hasOwnProperty('date'));
-	t.true(shift.hasOwnProperty('startTime'));
-	t.true(shift.hasOwnProperty('endTime'));
 	t.is(typeof shift.id, 'number');
 	t.is(typeof shift.date, 'string');
 	t.is(typeof shift.startTime, 'string');

@@ -2,12 +2,13 @@
 /* eslint-disable no-inline-comments */
 'use strict';
 var updateNotifier = require('update-notifier');
-var utils = require('./dist/utils.js');
 var objectAssign = require('object-assign');
-var Timecard = require('./dist/index.js');
 var multiline = require('multiline');
 var subarg = require('subarg');
 var meow = require('meow');
+
+var Timecard = require('./dist/index.js');
+var utils = require('./dist/utils.js');
 
 var cli = meow(multiline(function () {/*
 
