@@ -21,8 +21,6 @@
     "cli.js"
   ],
   "keywords": [
-    "time",
-    "track",
     "timecard",
     "timesheet",
     "clock",
@@ -32,10 +30,16 @@
     "punch",
     "sheet",
     "hours",
-    "log",
     "development",
     "spent",
-    "analyze"
+    "duration",
+    "time",
+    "log",
+    "record",
+    "analyze",
+    "track",
+    "clockin",
+    "clockout"
   ],
   "author": "Michael Wuergler <senjudev@gmail.com> (http://numetriclabs.com)",
   "license": "MIT",
