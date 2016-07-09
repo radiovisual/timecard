@@ -87,10 +87,10 @@ test.serial('records total seconds', async t => {
 	t.true(timecard.totalSeconds >= 3);
 });
 
-test.serial('utils.getTimeCardData', async t => {
+test.serial('utils.processTimeCardData', async t => {
 	await timecard.create();
 	await timecard.clockin();
-	timecard.getTimeCardData().then(data => {
+	timecard.processTimeCardData().then(data => {
 		t.true(data);
 		t.is(typeof data, 'object');
 		t.is(data[0].id, 0);
