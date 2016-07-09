@@ -127,4 +127,3 @@ test.serial('prompts: projectName.validate', t => {
 test.serial('prompts: eraseThenCreatePrompt.projectName.when', t => {
 	t.is(eraseThenCreatePrompt()[1].when({eraseCard: true}), true);
 });
-
