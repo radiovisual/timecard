@@ -44,8 +44,18 @@ $ timecard print
 
 ### `.timecard.json`
 
-- By default, timecard creates a hidden json file `.timecard.json` and places it your project's root 
-directory. If you don't want this file to be under version control, remember to update your `.gitignore` file.  
+When you run the `timecard new` command, Timecard creates a hidden file called `.timecard.json`. This is the file 
+where your project times are recorded. Some important notes to consider regarding the timecard file:
+
+- **If you don't want the timecard file to be under version control, remember to update your `.gitignore` file.**
+  
+- **If your project contains a `package.json` file** (for Node.js developers), then Timecard assumes that the directory 
+with the `package.json` file is the root directory, and places the `.timecard.json` file in the root, and still allows 
+you to run any Timecard command from any of your project's sub-directories.
+
+- **If your project DOES NOT contain a `package.json` file**, then you can still use Timecard, you will just need to make 
+sure that you are running the Timecard commands from the same directory where you first created your Timecard file with 
+`timecard new`.
 
 - Sometimes it will be necessary to update the `.timecard.json` file manually (if you forgot to clockout, for example), 
 which is fine, just remember that this file must be valid JSON.

@@ -4,12 +4,12 @@ import wait from 'wait-p';
 import rm from 'rimraf';
 import pify from 'pify';
 import test from 'ava';
-import packageRoot from 'pkg-dir';
+import findUp from 'find-up';
 import Timecard from '../dist/index.js';
 import {eraseThenCreatePrompt, createPrompt, projectName, eraseCard} from '../dist/prompts.js';
 
 let timecard;
-const root = packageRoot.sync(__dirname);
+const root = path.dirname(findUp.sync('package.json'));
 const timecardPath = path.join(root, '.timecard.json');
 
 test.beforeEach(() => {
