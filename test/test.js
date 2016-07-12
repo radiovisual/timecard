@@ -4,15 +4,17 @@ import wait from 'wait-p';
 import rm from 'rimraf';
 import pify from 'pify';
 import test from 'ava';
+import packageRoot from 'pkg-dir';
 import Timecard from '../dist/index.js';
 import {eraseThenCreatePrompt, createPrompt, projectName, eraseCard} from '../dist/prompts.js';
 
 let timecard;
-const timecardPath = path.join(__dirname, '.timecard.json');
+const root = packageRoot.sync(__dirname);
+const timecardPath = path.join(root, '.timecard.json');
 
 test.beforeEach(() => {
 	rm.sync(timecardPath);
-	timecard = new Timecard({filepath: __dirname, prompt: false});
+	timecard = new Timecard({prompt: false});
 });
 
 test('expose a constructor', t => {
@@ -24,12 +26,6 @@ test.serial('creates a new timecard', async t => {
 
 	const data = await pify(fs.readFile)(timecardPath, 'utf8');
 	t.true(/"shifts": \[\]/.test(data));
-});
-
-test.serial('create() returns a promise', async t => {
-	timecard.create().then(result => {
-		t.true(result);
-	});
 });
 
 test.serial('sets project name', async t => {
@@ -61,11 +57,11 @@ test.serial('report successful clockin', async t => {
 	});
 });
 
-test.serial('noTimeCardFoundForClockin', async t => {
+test.serial('noTimeCardFoundForClockin', t => {
 	t.throws(timecard.clockin(), /You must create a timecard before clocking in/g);
 });
 
-test.serial('noTimeCardFoundForClockout', async t => {
+test.serial('noTimeCardFoundForClockout', t => {
 	t.throws(timecard.clockout(), /You must create a timecard before clocking out/g);
 });
 
