@@ -1,6 +1,6 @@
 {
   "name": "timecard",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Keep track of your project development time.",
   "main": "timecard.js",
   "scripts": {
@@ -78,10 +78,6 @@
       "dist/**"
     ],
     "overrides": [
-      {
-        "files": "cli.js",
-        "esnext": false
-      },
       {
         "files": "lib",
         "esnext": true
