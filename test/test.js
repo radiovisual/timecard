@@ -150,7 +150,12 @@ test.serial('utils.processTimeCardData', async t => {
 });
 
 test.serial('utils.blankTimecard', t => {
-	t.is(timecard.blankTimecard('test-project'), '{\n  "project": "test-project",\n  "shifts": [],\n  "totals": {\n    "hours": 0,\n    "minutes": 0,\n    "seconds": 0\n  }\n}');
+	var blankcard = JSON.parse(timecard.blankTimecard('test-project'));
+	t.is(blankcard.project, 'test-project');
+	t.is(blankcard.shifts.length, 0);
+	t.is(blankcard.totals.hours, 0);
+	t.is(blankcard.totals.minutes, 0);
+	t.is(blankcard.totals.seconds, 0);
 });
 
 test.serial('utils.writeTimeCard', async t => {
