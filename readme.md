@@ -45,20 +45,17 @@ $ timecard print
 ### `.timecard.json`
 
 When you run the `timecard new` command, Timecard creates a hidden file called `.timecard.json`. This is the file 
-where your project times are recorded. Some important notes to consider regarding the timecard file:
+where your project times are recorded.
 
-- **If you don't want the timecard file to be under version control, remember to update your `.gitignore` file.**
+Some important notes to consider regarding the timecard file:
+
+1) **Version Control:** Remember to update your `.gitignore` file if you don't want the timecard file under version control.
   
-- **If your project contains a `package.json` file** (for Node.js developers), then Timecard assumes that the directory 
-with the `package.json` file is the root directory, and places the `.timecard.json` file in the root, and still allows 
-you to run any Timecard command from any of your project's sub-directories.
+2) **For Node.js developers:** If your project contains a `package.json` file, then Timecard assumes that the directory with the `package.json` file is the root directory, and places the `.timecard.json` file in the root. You can run any Timecard command from any of your project's sub-directories.
 
-- **If your project DOES NOT contain a `package.json` file**, then you can still use Timecard, you will just need to make 
-sure that you are running the Timecard commands from the same directory where you first created your Timecard file with 
-`timecard new`.
+3) **Non-Node.js Projects:** (or if your project DOES NOT contain a `package.json` file), then you can still use Timecard, you will just need to make sure that you are running the Timecard commands from the same directory each time (preferably in your project root).
 
-- Sometimes it will be necessary to update the `.timecard.json` file manually (if you forgot to clockout, for example), 
-which is fine, just remember that this file must be valid JSON.
+4) **Manual timecard edits:** Sometimes it will be necessary to update the `.timecard.json` file manually (if you forgot to clockout, for example), which is fine, just remember that this file must be valid JSON.
  
  
 ## Options
