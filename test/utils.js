@@ -43,7 +43,7 @@ test('isTimeCardValid: true', async t => {
 	t.is(timecard.isTimeCardValid(data), true);
 });
 
-test('isTimeCardValid: false', async t => {
+test('isTimeCardValid: false', t => {
 	const timecard = new Timecard();
 
 	const data = 'invalid json';
@@ -51,7 +51,7 @@ test('isTimeCardValid: false', async t => {
 	t.is(timecard.isTimeCardValid(data), false);
 });
 
-test('getTotalSeconds', async t => {
+test('getTotalSeconds', t => {
 	const timecard = new Timecard();
 
 	const fixture1 = {
@@ -82,7 +82,7 @@ test('getTotalSeconds', async t => {
 	t.is(seconds2, 61);
 });
 
-test('getPendingClockoutId', async t => {
+test('getPendingClockoutId', t => {
 	const timecard = new Timecard();
 
 	const fixture = {
@@ -113,7 +113,7 @@ test('getPendingClockoutId returns undefined when no pending clockout', async t 
 	t.is(typeof pendingId, 'undefined');
 });
 
-test('getShiftOrder', async t => {
+test('getShiftOrder', t => {
 	const timecard = new Timecard();
 
 	const fixture = {
@@ -131,7 +131,7 @@ test('getShiftOrder', async t => {
 	t.deepEqual(shiftOrder, ['1', '2']);
 });
 
-test('getNewShift with message', async t => {
+test('getNewShift with message', t => {
 	const timecard = new Timecard();
 
 	const newShift = timecard.getNewShift('hello');
@@ -139,7 +139,7 @@ test('getNewShift with message', async t => {
 	t.is(newShift.messages[0], 'hello');
 });
 
-test('getNewShift without message', async t => {
+test('getNewShift without message', t => {
 	const timecard = new Timecard();
 
 	const newShift = timecard.getNewShift();
@@ -147,13 +147,13 @@ test('getNewShift without message', async t => {
 	t.is(newShift.messages.length, 0);
 });
 
-test('stringOrUndefined', async t => {
+test('stringOrUndefined', t => {
 	const timecard = new Timecard();
-	const fn = timecard.stringOrUndefined;
 
-	t.is(typeof fn(), 'undefined');
-	t.is(typeof fn(''), 'undefined');
-	t.is(fn(' foo '), 'foo');
+	t.is(typeof timecard.stringOrUndefined(), 'undefined');
+	t.is(typeof timecard.stringOrUndefined(''), 'undefined');
+	t.is(typeof timecard.stringOrUndefined(' '), 'undefined');
+	t.is(timecard.stringOrUndefined(' foo '), 'foo');
 });
 
 test('getNextShiftId', async t => {
@@ -186,7 +186,7 @@ test('getTimeCard returns blankcard', async t => {
 	t.is(Object.keys(obj.shifts).length, 0);
 });
 
-test('getTimecardString', async t => {
+test('getTimecardString', t => {
 	const timecard = new Timecard({filepath: 'foo.json'});
 
 	const string = timecard.getTimecardString(timecard);
