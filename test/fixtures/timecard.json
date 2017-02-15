@@ -1,0 +1,20 @@
+{
+  "project" : "test",
+  "shifts": {
+    "1": {
+      "startTime": "Mon Feb 13 2017 10:12:22 GMT+0000 (WET)",
+      "endTime": "Mon Feb 13 2017 11:13:23 GMT+0000 (WET)",
+      "messages": []
+    },
+    "2": {
+      "startTime": "Tue Feb 14 2017 10:12:22 GMT+0000 (WET)",
+      "endTime": "Tue Feb 14 2017 11:13:23 GMT+0000 (WET)",
+      "messages": []
+    }
+  },
+  "totals": {
+    "hours": 2,
+    "minutes": 1,
+    "seconds": 1
+  }
+}

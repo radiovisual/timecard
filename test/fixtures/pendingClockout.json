@@ -3,7 +3,17 @@
   "shifts": {
     "0": {
       "startTime": "Mon Feb 13 2017 10:12:22 GMT+0000 (WET)",
+      "endTime": "Mon Feb 13 2017 11:12:22 GMT+0000 (WET)",
+      "messages": ["Lorem ipsum"]
+    },
+    "1": {
+      "startTime": "Tue Feb 14 2017 10:12:22 GMT+0000 (WET)",
       "messages": []
     }
+  },
+  "totals": {
+    "hours": 1,
+    "minutes": 0,
+    "seconds": 0
   }
 }
