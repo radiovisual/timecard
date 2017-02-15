@@ -20,6 +20,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=4"
+  },
   "keywords": [
     "timecard",
     "timesheet",
