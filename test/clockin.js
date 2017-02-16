@@ -64,7 +64,6 @@ test('cant run clockin operations on illegal locations', async t => {
 
 test.after.always('cleanup tempfiles', () => {
 	tempfiles.forEach(path => {
-		console.log('deleting temppath:', path);
 		rimraf.sync(path);
 	});
 });
