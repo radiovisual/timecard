@@ -41,6 +41,7 @@ test('isTimeCardValid: true', async t => {
 	const data = await pify(fs.readFile)(fixture, 'utf8');
 
 	t.is(timecard.isTimeCardValid(data), true);
+	t.is(timecard.isTimeCardValid(JSON.parse(data)), true);
 });
 
 test('isTimeCardValid: false', t => {
