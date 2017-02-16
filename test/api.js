@@ -3,9 +3,12 @@ import path from 'path';
 import wait from 'wait-p';
 import pify from 'pify';
 import test from 'ava';
+import tempfile from 'tempfile';
+import rimraf from 'rimraf';
 import Timecard from '../dist/index.js';
 
 const fixtures = path.resolve('test/fixtures');
+const temppath = tempfile('.json');
 
 test('expose a constructor', t => {
 	t.is(typeof Timecard, 'function');
@@ -63,7 +66,11 @@ test('allow print before clockout', async t => {
 });
 
 test('records total seconds', async t => {
-	const timecard = new Timecard();
+	// we have to create a timecard even though we we aren't using the physical
+	// file in these tests because the clockin and clockout commands require a 
+	// timecard file before executing.
+	const timecard = new Timecard({prompt: false, filepath: temppath});
+	await timecard.create();
 
 	const fixture = path.join(fixtures, 'timecard.json');
 	const data = await pify(fs.readFile)(fixture, 'utf8');
@@ -74,4 +81,8 @@ test('records total seconds', async t => {
 	await timecard.clockout();
 
 	t.true(timecard.totalSeconds >= 3600 + 60 + 1 + 3);
+});
+
+test.after.always('cleanup tempfile', () => {
+	rimraf.sync(temppath);
 });

@@ -3,13 +3,24 @@ import path from 'path';
 import pify from 'pify';
 import test from 'ava';
 import tempfile from 'tempfile';
+import rimraf from 'rimraf';
 import Timecard from '../dist/';
 
 const fixtures = path.resolve('test/fixtures');
 
-test('clockout', async t => {
-	const timecard = new Timecard();
+const tempfiles = [];
 
+test.beforeEach('cleanup tempfile', async t => {
+		// Create a blank timecard on the disk so that the operations
+		// that require a timecard file can find one.
+		const temppath = tempfile('.json');
+		tempfiles.push(temppath);
+		t.context.timecard = new Timecard({prompt: false, filepath: temppath});
+		await t.context.timecard.create();
+});
+
+test('clockout', async t => {
+	const timecard = t.context.timecard;
 	const fixture = path.join(fixtures, 'pendingClockout.json');
 	const data = await pify(fs.readFile)(fixture, 'utf8');
 	await timecard.load(data);
@@ -19,7 +30,7 @@ test('clockout', async t => {
 });
 
 test('clockout with message', async t => {
-	const timecard = new Timecard();
+	const timecard = t.context.timecard;
 	await timecard.clockin('foo');
 	await timecard.clockout('bar');
 
@@ -28,8 +39,7 @@ test('clockout with message', async t => {
 });
 
 test('prevent clockout before clockin', async t => {
-	const timecard = new Timecard();
-
+	const timecard = t.context.timecard;
 	const fixture = path.join(fixtures, 'blank.json');
 	const data = await pify(fs.readFile)(fixture, 'utf8');
 	await timecard.load(data);
@@ -48,8 +58,7 @@ test('report error if attempt to clockout with no timecard', t => {
 });
 
 test('prevent clockout if clockin pending', async t => {
-  const timecard = new Timecard();
-
+	const timecard = t.context.timecard;
   const fixture = path.join(fixtures, 'blank.json');
 	const data = await pify(fs.readFile)(fixture, 'utf8');
 	await timecard.load(data);
@@ -65,5 +74,12 @@ test('cant run clockout operations on illegal locations', async t => {
 
 	timecard.clockout().catch(err => {
 		t.true(err.search('You must create a timecard before clocking out') > -1);
+	});
+});
+
+test.after.always('cleanup tempfiles', () => {
+	tempfiles.forEach(path => {
+		console.log('deleting temppath:', path);
+		rimraf.sync(path);
 	});
 });
