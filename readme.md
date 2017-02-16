@@ -104,6 +104,14 @@ $ timecard --help
     --message, -m           Include a message summary to your shift (via clockin and clockout)
 
 ```
+## Tips
+
+- **Export Timecard to Text File:** If you want something easier to read than a .json
+file, you can pipe the output of the `print` command to a text file from the command line
+like this:
+  ```
+  $ timecard print > timecard.txt
+  ```
 
 ## License
 
