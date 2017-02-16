@@ -7,7 +7,8 @@
     "test": "xo && npm run build && nyc ava --verbose",
     "ava": "ava --verbose",
     "build": "babel lib --out-dir=dist --optional=runtime",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "push": "npm run test && git push origin master"
   },
   "repository": {
     "type": "git",

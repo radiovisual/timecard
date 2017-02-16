@@ -67,7 +67,7 @@ test('allow print before clockout', async t => {
 
 test('records total seconds', async t => {
 	// we have to create a timecard even though we we aren't using the physical
-	// file in these tests because the clockin and clockout commands require a 
+	// file in these tests because the clockin and clockout commands require a
 	// timecard file before executing.
 	const timecard = new Timecard({prompt: false, filepath: temppath});
 	await timecard.create();
