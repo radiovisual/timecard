@@ -117,18 +117,17 @@ test('getShiftOrder', t => {
 	const timecard = new Timecard();
 
 	const fixture = {
-		2: {
-			startTime: 'Mon Feb 13 2017 10:12:22 GMT+0000 (WET)',
-			endTime: 'Mon Feb 13 2017 11:13:23 GMT+0000 (WET)'
-		},
-		1: {
-			startTime: 'Mon Feb 13 2017 10:12:22 GMT+0000 (WET)',
-			endTime: 'Mon Feb 13 2017 11:13:23 GMT+0000 (WET)'
-		}
+		'2': {},
+		'-1': {},
+		'-99999999': {},
+		'0': {},
+		'1': {},
+		'99': {},
+		'789890': {}
 	};
 
 	const shiftOrder = timecard.getShiftOrder(fixture);
-	t.deepEqual(shiftOrder, ['1', '2']);
+	t.deepEqual(shiftOrder, ['-99999999', '-1', '0', '1', '2', '99', '789890']);
 });
 
 test('getNewShift with message', t => {
