@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import pify from 'pify';
 import test from 'ava';
+import tempfile from 'tempfile';
 import Timecard from '../dist/';
 
 const fixtures = path.resolve('test/fixtures');
@@ -55,5 +56,14 @@ test('prevent clockout if clockin pending', async t => {
 
 	timecard.clockout().catch(err => {
 		t.true(err.search('You must clockin before clocking out') > -1);
+	});
+});
+
+test('cant run clockout operations on illegal locations', async t => {
+  const illegalPath = path.join(tempfile('nopeclockout'), 'clockout.nope');
+  const timecard = new Timecard({filepath: illegalPath});
+
+	timecard.clockout().catch(err => {
+		t.true(err.search('You must create a timecard before clocking out') > -1);
 	});
 });

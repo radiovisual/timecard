@@ -33,11 +33,19 @@ test('prevent clockin if clockout pending', async t => {
 	});
 });
 
+test('prevent clockin without a timecard', async t => {
+	const timecard = new Timecard({filepath: 'does/not/exist'});
+
+	timecard.clockin().catch(err => {
+		t.true(err.search('You must create a timecard before clocking in') > -1);
+	});
+});
+
 test('cant run clockin operations on illegal locations', async t => {
   const illegalPath = path.join(tempfile('nopeclockin'), 'clockin.nope');
   const timecard = new Timecard({filepath: illegalPath});
 
 	timecard.clockin().catch(err => {
-		t.is(err.code, 'ENOENT');
+		t.true(err.search('You must create a timecard before clocking in') > -1);
 	});
 });
