@@ -94,10 +94,5 @@
         "esnext": true
       }
     ]
-  },
-  "ava": {
-    "rules": {
-      "no-skip-test": "off"
-    }
   }
 }
